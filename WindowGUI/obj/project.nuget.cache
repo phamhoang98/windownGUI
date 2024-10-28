@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RHcqJQLKsUA=",
+  "dgSpecHash": "ur2vLFvBGMc=",
   "success": true,
-  "projectFilePath": "D:\\project\\WindowGUI\\WindowGUI\\WindowGUI.csproj",
+  "projectFilePath": "D:\\project\\git\\windowGUI\\WindowGUI\\WindowGUI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\phamh\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\phamh\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",

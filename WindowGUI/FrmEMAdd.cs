@@ -17,20 +17,20 @@ namespace WindowGUI
 {
     public partial class FrmEMAdd : Form
     {
-
-        private void LoadComboBoxData(ComboBox comboBox, string query, string column)
+        public Employee? DataToForm { get; set; }
+        private void LoadComboBoxDepartment()
         {
             using (SqlConnection connection = new SqlConnection(AppData.connectionString))
             {
                 try
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
+                    SqlCommand command = new SqlCommand("SELECT * FROM PhongBan", connection);
                     SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
                     {
-                        comboBox.Items.Add(reader[$"{column}"].ToString()!);
+                        cbDepartment.Items.Add(reader["TenPhongBan"].ToString()!);
                     }
                     connection.Close();
                 }
@@ -40,6 +40,30 @@ namespace WindowGUI
                 }
             }
         }
+
+        private void LoadComboBoxPosition()
+        {
+            using (SqlConnection connection = new SqlConnection(AppData.connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("SELECT * FROM ChucVu", connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        cbPosition.Items.Add(reader["TenChucVu"].ToString()!);
+                    }
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
+                }
+            }
+        }
+
         public FrmEMAdd()
         {
             InitializeComponent();
@@ -65,7 +89,7 @@ namespace WindowGUI
             }
             else
             {
-                if (IsPrimaryKeyExists(txID.Text))
+                if (DataToForm == null && IsPrimaryKeyExists(txID.Text) )
                 {
                     MessageBox.Show($"Mã nhân viên [{txID.Text}] đã tồn tại. Vui lòng nhập lại.");
                     return;
@@ -83,7 +107,8 @@ namespace WindowGUI
             {
                 missingFields.Add("Email");
             }
-            else {
+            else
+            {
                 if (IsValidEmail(tbEmail.Text) != true)
                 {
                     MessageBox.Show("Email không hợp lệ. Vui lòng nhập lại.");
@@ -105,14 +130,57 @@ namespace WindowGUI
                 MessageBox.Show(message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            AddEmployee(new Employee(txID.Text, tbName.Text, "0987654321", tbEmail.Text, tbAddress.Text, rbMale.Checked ? "Nam" : "Nữ", cbDepartment.SelectedItem as string ?? "", cbPosition.SelectedItem as string ?? "", dtpDate.Value.Date));
+            Employee employee = new Employee(txID.Text, tbName.Text, "098765432", tbEmail.Text,
+                tbAddress.Text, rbMale.Checked ? "Nam" : "Nữ", GetIDDeparment(cbDepartment.SelectedItem as string ?? ""),
+                 GetIDPosistion(cbPosition.SelectedItem as string ?? ""), dtpDate.Value.Date); ;
+
+            if (DataToForm == null)
+            {
+                AddEmployee(employee);
+
+            }
+            else
+            {
+                EditEmployee(employee);
+            }
+
             this.Close();
         }
 
         private void FrmEMAdd_Load(object sender, EventArgs e)
         {
-            LoadComboBoxData(cbDepartment, "SELECT * FROM PhongBan", "TenPhongBan");
-            LoadComboBoxData(cbPosition, "SELECT * FROM ChucVu", "TenChucVu");
+            LoadComboBoxDepartment();
+            LoadComboBoxPosition();
+            if (DataToForm != null)
+            {
+                txID.Text = DataToForm.Id;
+                txID.Enabled = false;
+                tbName.Text = DataToForm.Name;
+                if (DataToForm.Sex == "Nam")
+                {
+                    rbMale.Checked = true;
+
+                }
+                else
+                {
+                    rbFeMale.Checked = true;
+                }
+
+
+                dtpDate.Value = DataToForm.Date;
+                tbEmail.Text = DataToForm.Email;
+                tbAddress.Text = DataToForm.Address;
+                if (cbDepartment.Items.Contains(DataToForm.Department))
+                {
+                    cbDepartment.SelectedItem = DataToForm.Department;
+                }
+                if (cbPosition.Items.Contains(DataToForm.Position))
+                {
+                    cbPosition.SelectedItem = DataToForm.Position;
+                }
+
+                btnSave.Text = "Edit";
+            }
         }
 
         private bool IsValidEmail(string email)
@@ -144,24 +212,25 @@ namespace WindowGUI
             }
         }
 
-        private void AddEmployee(Employee employee) {
+        private void AddEmployee(Employee employee)
+        {
             using (SqlConnection connection = new SqlConnection(AppData.connectionString))
             {
                 try
                 {
                     connection.Open();
-                    string query = "INSERT INTO NhanVien (MaNhanvien, TenNhanvien,SDT,Email,DiaChi,GioiTinh,PhongBan,Chucvu,Ngaysinh) VALUES (@MaNhanvien, @TenNhanvien,@SDT,@Email,@DiaChi,@GioiTinh,@PhongBan,@Chucvu,@Ngaysinh)";
+                    string query = "INSERT INTO NhanVien (MaNhanVien, TenNhanVien,SDT,Email,DiaChi,GioiTinh,MaPhongBan,MaChucvu,Ngaysinh) VALUES (@MaNhanVien, @TenNhanVien,@SDT,@Email,@DiaChi,@GioiTinh,@PhongBan,@Chucvu,@Ngaysinh)";
                     using (SqlCommand sqlCommand = new SqlCommand(query, connection))
                     {
-                        sqlCommand.Parameters.AddWithValue("@MaNhanvien", employee.id);
-                        sqlCommand.Parameters.AddWithValue("@TenNhanvien", employee.name);
-                        sqlCommand.Parameters.AddWithValue("@SDT", employee.phone);
-                        sqlCommand.Parameters.AddWithValue("@Email", employee.email);
-                        sqlCommand.Parameters.AddWithValue("@DiaChi", employee.address);
-                        sqlCommand.Parameters.AddWithValue("@GioiTinh", employee.sex);
-                        sqlCommand.Parameters.AddWithValue("@PhongBan", employee.department);
-                        sqlCommand.Parameters.AddWithValue("@Chucvu", employee.position);
-                        sqlCommand.Parameters.AddWithValue("@Ngaysinh", employee.date);
+                        sqlCommand.Parameters.AddWithValue("@MaNhanVien", employee.Id);
+                        sqlCommand.Parameters.AddWithValue("@TenNhanVien", employee.Name);
+                        sqlCommand.Parameters.AddWithValue("@SDT", employee.Phone);
+                        sqlCommand.Parameters.AddWithValue("@Email", employee.Email);
+                        sqlCommand.Parameters.AddWithValue("@DiaChi", employee.Address);
+                        sqlCommand.Parameters.AddWithValue("@GioiTinh", employee.Sex);
+                        sqlCommand.Parameters.AddWithValue("@PhongBan", employee.Department);
+                        sqlCommand.Parameters.AddWithValue("@Chucvu", employee.Position);
+                        sqlCommand.Parameters.AddWithValue("@Ngaysinh", employee.Date);
                         sqlCommand.ExecuteNonQuery();
                     }
                 }
@@ -171,6 +240,85 @@ namespace WindowGUI
                 }
             }
         }
+        private void EditEmployee(Employee employee)
+        {
+            using (SqlConnection connection = new SqlConnection(AppData.connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "UPDATE NhanVien SET " +
+                        "TenNhanVien = @TenNhanVien,Email=@Email, DiaChi=@DiaChi, " +
+                        "GioiTinh= @GioiTinh,MaPhongBan = @PhongBan,MaChucvu=@Chucvu,Ngaysinh=@Ngaysinh WHERE MaNhanVien= @MaNhanVien";
+                    using (SqlCommand sqlCommand = new SqlCommand(query, connection))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@MaNhanVien", employee.Id);  
+                        sqlCommand.Parameters.AddWithValue("@TenNhanVien", employee.Name);
+                        sqlCommand.Parameters.AddWithValue("@Email", employee.Email);
+                        sqlCommand.Parameters.AddWithValue("@DiaChi", employee.Address);
+                        sqlCommand.Parameters.AddWithValue("@GioiTinh", employee.Sex);
+                        sqlCommand.Parameters.AddWithValue("@PhongBan", employee.Department);
+                        sqlCommand.Parameters.AddWithValue("@Chucvu", employee.Position);
+                        sqlCommand.Parameters.AddWithValue("@Ngaysinh", employee.Date);
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
+                }
+            }
+        }
+        private string GetIDDeparment(string name)
+        {
+            using (SqlConnection connection = new SqlConnection(AppData.connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("SELECT MaPhongBan FROM PhongBan WHERE TenPhongBan = @TenPhongBan", connection);
 
+                    using (command)
+                    {
+                        command.Parameters.AddWithValue("@TenPhongBan", name);
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            return reader["MaPhongBan"].ToString()!;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
+                }
+            }
+            return "";
+        }
+        private string GetIDPosistion(string name)
+        {
+            using (SqlConnection connection = new SqlConnection(AppData.connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("SELECT MaChucvu FROM Chucvu WHERE TenChucvu = @TenChucvu", connection);
+                    using (command)
+                    {
+                        command.Parameters.AddWithValue("@TenChucvu", name);
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            return reader["MaChucvu"].ToString()!;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
+                }
+            }
+            return "";
+        }
     }
 }

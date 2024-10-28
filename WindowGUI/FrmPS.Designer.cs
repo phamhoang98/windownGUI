@@ -30,6 +30,10 @@
         {
             btnAdd = new Button();
             dgvPosition = new DataGridView();
+            MaChucVu = new DataGridViewTextBoxColumn();
+            TenChucVu = new DataGridViewTextBoxColumn();
+            edit = new DataGridViewButtonColumn();
+            delete = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)dgvPosition).BeginInit();
             SuspendLayout();
             // 
@@ -46,12 +50,45 @@
             // dgvPosition
             // 
             dgvPosition.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPosition.Columns.AddRange(new DataGridViewColumn[] { MaChucVu, TenChucVu, edit, delete });
             dgvPosition.Location = new Point(12, 60);
             dgvPosition.Name = "dgvPosition";
             dgvPosition.RowHeadersWidth = 51;
             dgvPosition.Size = new Size(512, 342);
             dgvPosition.TabIndex = 16;
             dgvPosition.CellContentClick += dgvPosition_CellContentClick;
+            // 
+            // MaChucVu
+            // 
+            MaChucVu.DataPropertyName = "MaChucVu";
+            MaChucVu.HeaderText = "Mã Chức Vụ";
+            MaChucVu.MinimumWidth = 6;
+            MaChucVu.Name = "MaChucVu";
+            MaChucVu.ReadOnly = true;
+            MaChucVu.Width = 125;
+            // 
+            // TenChucVu
+            // 
+            TenChucVu.DataPropertyName = "TenChucVu";
+            TenChucVu.HeaderText = "Tên Chức Vụ";
+            TenChucVu.MinimumWidth = 6;
+            TenChucVu.Name = "TenChucVu";
+            TenChucVu.ReadOnly = true;
+            TenChucVu.Width = 125;
+            // 
+            // edit
+            // 
+            edit.HeaderText = "Sửa";
+            edit.MinimumWidth = 6;
+            edit.Name = "edit";
+            edit.Width = 125;
+            // 
+            // delete
+            // 
+            delete.HeaderText = "Xoá";
+            delete.MinimumWidth = 6;
+            delete.Name = "delete";
+            delete.Width = 125;
             // 
             // FrmPS
             // 
@@ -71,5 +108,9 @@
 
         private Button btnAdd;
         private DataGridView dgvPosition;
+        private DataGridViewTextBoxColumn MaChucVu;
+        private DataGridViewTextBoxColumn TenChucVu;
+        private DataGridViewButtonColumn edit;
+        private DataGridViewButtonColumn delete;
     }
 }

@@ -32,13 +32,14 @@
             dgvEmployee = new DataGridView();
             MaNhanvien = new DataGridViewTextBoxColumn();
             TenNhanvien = new DataGridViewTextBoxColumn();
-            SDT = new DataGridViewTextBoxColumn();
             Email = new DataGridViewTextBoxColumn();
             DiaChi = new DataGridViewTextBoxColumn();
             GioiTinh = new DataGridViewTextBoxColumn();
-            MaPhongBan = new DataGridViewTextBoxColumn();
-            Chucvu = new DataGridViewTextBoxColumn();
+            TenPhongBan = new DataGridViewTextBoxColumn();
+            TenChucVu = new DataGridViewTextBoxColumn();
             Ngaysinh = new DataGridViewTextBoxColumn();
+            edit = new DataGridViewButtonColumn();
+            delete = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)dgvEmployee).BeginInit();
             SuspendLayout();
             // 
@@ -54,77 +55,102 @@
             // 
             // dgvEmployee
             // 
+            dgvEmployee.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvEmployee.Columns.AddRange(new DataGridViewColumn[] { MaNhanvien, TenNhanvien, SDT, Email, DiaChi, GioiTinh, MaPhongBan, Chucvu, Ngaysinh });
+            dgvEmployee.Columns.AddRange(new DataGridViewColumn[] { MaNhanvien, TenNhanvien, Email, DiaChi, GioiTinh, TenPhongBan, TenChucVu, Ngaysinh, edit, delete });
             dgvEmployee.Location = new Point(12, 57);
             dgvEmployee.Name = "dgvEmployee";
             dgvEmployee.RowHeadersWidth = 51;
-            dgvEmployee.Size = new Size(776, 495);
+            dgvEmployee.Size = new Size(776, 402);
             dgvEmployee.TabIndex = 1;
             dgvEmployee.CellContentClick += dgvEmployee_CellContentClick;
             // 
             // MaNhanvien
             // 
-            MaNhanvien.HeaderText = "MaNhanvien";
+            MaNhanvien.DataPropertyName = "MaNhanvien";
+            MaNhanvien.HeaderText = "Mã nhân viên";
             MaNhanvien.MinimumWidth = 6;
             MaNhanvien.Name = "MaNhanvien";
-            MaNhanvien.Width = 125;
+            MaNhanvien.ReadOnly = true;
+            MaNhanvien.Resizable = DataGridViewTriState.True;
+            MaNhanvien.Width = 126;
             // 
             // TenNhanvien
             // 
-            TenNhanvien.HeaderText = "TenNhanvien";
+            TenNhanvien.DataPropertyName = "TenNhanvien";
+            TenNhanvien.HeaderText = "Tên nhân viên";
             TenNhanvien.MinimumWidth = 6;
             TenNhanvien.Name = "TenNhanvien";
-            TenNhanvien.Width = 125;
-            // 
-            // SDT
-            // 
-            SDT.HeaderText = "SDT";
-            SDT.MinimumWidth = 6;
-            SDT.Name = "SDT";
-            SDT.Width = 125;
+            TenNhanvien.ReadOnly = true;
+            TenNhanvien.Width = 128;
             // 
             // Email
             // 
+            Email.DataPropertyName = "Email";
             Email.HeaderText = "Email";
             Email.MinimumWidth = 6;
             Email.Name = "Email";
-            Email.Width = 125;
+            Email.ReadOnly = true;
+            Email.Width = 75;
             // 
             // DiaChi
             // 
-            DiaChi.HeaderText = "DiaChi";
+            DiaChi.DataPropertyName = "DiaChi";
+            DiaChi.HeaderText = "Địa chỉ";
             DiaChi.MinimumWidth = 6;
             DiaChi.Name = "DiaChi";
-            DiaChi.Width = 125;
+            DiaChi.ReadOnly = true;
+            DiaChi.Width = 84;
             // 
             // GioiTinh
             // 
-            GioiTinh.HeaderText = "GioiTinh";
+            GioiTinh.DataPropertyName = "GioiTinh";
+            GioiTinh.HeaderText = "Giới tính";
             GioiTinh.MinimumWidth = 6;
             GioiTinh.Name = "GioiTinh";
-            GioiTinh.Width = 125;
+            GioiTinh.ReadOnly = true;
+            GioiTinh.Width = 94;
             // 
-            // MaPhongBan
+            // TenPhongBan
             // 
-            MaPhongBan.HeaderText = "MaPhongBan";
-            MaPhongBan.MinimumWidth = 6;
-            MaPhongBan.Name = "MaPhongBan";
-            MaPhongBan.Width = 125;
+            TenPhongBan.DataPropertyName = "TenPhongBan";
+            TenPhongBan.HeaderText = "Phòng ban";
+            TenPhongBan.MinimumWidth = 6;
+            TenPhongBan.Name = "TenPhongBan";
+            TenPhongBan.ReadOnly = true;
+            TenPhongBan.Width = 109;
             // 
-            // Chucvu
+            // TenChucVu
             // 
-            Chucvu.HeaderText = "Chucvu";
-            Chucvu.MinimumWidth = 6;
-            Chucvu.Name = "Chucvu";
-            Chucvu.Width = 125;
+            TenChucVu.DataPropertyName = "TenChucVu";
+            TenChucVu.HeaderText = "Chức vụ";
+            TenChucVu.MinimumWidth = 6;
+            TenChucVu.Name = "TenChucVu";
+            TenChucVu.ReadOnly = true;
+            TenChucVu.Width = 90;
             // 
             // Ngaysinh
             // 
-            Ngaysinh.HeaderText = "Ngaysinh";
+            Ngaysinh.DataPropertyName = "Ngaysinh";
+            Ngaysinh.HeaderText = "Ngày sinh";
             Ngaysinh.MinimumWidth = 6;
             Ngaysinh.Name = "Ngaysinh";
-            Ngaysinh.Width = 125;
+            Ngaysinh.ReadOnly = true;
+            Ngaysinh.Width = 103;
+            // 
+            // edit
+            // 
+            edit.HeaderText = "Sửa";
+            edit.MinimumWidth = 6;
+            edit.Name = "edit";
+            edit.Width = 40;
+            // 
+            // delete
+            // 
+            delete.HeaderText = "Xoá";
+            delete.MinimumWidth = 6;
+            delete.Name = "delete";
+            delete.Width = 41;
             // 
             // FrmEM
             // 
@@ -146,12 +172,13 @@
         private DataGridView dgvEmployee;
         private DataGridViewTextBoxColumn MaNhanvien;
         private DataGridViewTextBoxColumn TenNhanvien;
-        private DataGridViewTextBoxColumn SDT;
         private DataGridViewTextBoxColumn Email;
         private DataGridViewTextBoxColumn DiaChi;
         private DataGridViewTextBoxColumn GioiTinh;
-        private DataGridViewTextBoxColumn MaPhongBan;
-        private DataGridViewTextBoxColumn Chucvu;
+        private DataGridViewTextBoxColumn TenPhongBan;
+        private DataGridViewTextBoxColumn TenChucVu;
         private DataGridViewTextBoxColumn Ngaysinh;
+        private DataGridViewButtonColumn edit;
+        private DataGridViewButtonColumn delete;
     }
 }

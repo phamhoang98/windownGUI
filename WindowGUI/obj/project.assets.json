@@ -475,11 +475,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\project\\WindowGUI\\WindowGUI\\WindowGUI.csproj",
+      "projectUniqueName": "D:\\project\\git\\windowGUI\\WindowGUI\\WindowGUI.csproj",
       "projectName": "WindowGUI",
-      "projectPath": "D:\\project\\WindowGUI\\WindowGUI\\WindowGUI.csproj",
+      "projectPath": "D:\\project\\git\\windowGUI\\WindowGUI\\WindowGUI.csproj",
       "packagesPath": "C:\\Users\\phamh\\.nuget\\packages\\",
-      "outputPath": "D:\\project\\WindowGUI\\WindowGUI\\obj\\",
+      "outputPath": "D:\\project\\git\\windowGUI\\WindowGUI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\phamh\\AppData\\Roaming\\NuGet\\NuGet.Config",

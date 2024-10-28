@@ -16,7 +16,8 @@ namespace WindowGUI
 {
     public partial class FrmDPAdd : Form
     {
-
+        public string? id;
+        public string? name;
         public FrmDPAdd()
         {
             InitializeComponent();
@@ -40,7 +41,8 @@ namespace WindowGUI
             }
             else
             {
-                if (IsValueExists("MaPhongBan", tbID.Text))
+
+                if (id == null && IsValueExists("MaPhongBan", tbID.Text))
                 {
                     MessageBox.Show($"Mã phòng ban [{tbID.Text}] đã tồn tại. Vui lòng nhập lại.");
                     return;
@@ -52,7 +54,7 @@ namespace WindowGUI
             }
             else
             {
-                if (IsValueExists("TenPhongBan", tbName.Text))
+                if (tbName.Text != name && IsValueExists("TenPhongBan", tbName.Text))
                 {
                     MessageBox.Show($"Tên phòng ban [{tbName.Text}] đã tồn tại. Vui lòng nhập lại.");
                     return;
@@ -65,12 +67,16 @@ namespace WindowGUI
                 MessageBox.Show(message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            AddDepartment(tbID.Text, tbName.Text);
-            this.Close();
-        }
-        private void FrmDPAdd_Load(object sender, EventArgs e)
-        {
+            if (id == null)
+            {
+                AddDepartment(tbID.Text, tbName.Text);
+            }
+            else
+            {
+                EditDepartment(tbID.Text, tbName.Text);
+            }
 
+            this.Close();
         }
 
         private bool IsValidEmail(string email)
@@ -124,9 +130,42 @@ namespace WindowGUI
             }
         }
 
+        private void EditDepartment(string id, string name)
+        {
+            using (SqlConnection connection = new SqlConnection(AppData.connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "UPDATE  PhongBan SET TenPhongBan = @TenPhongBan WHERE MaPhongBan= @MaPhongBan";
+                    using (SqlCommand sqlCommand = new SqlCommand(query, connection))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@MaPhongBan", id);
+                        sqlCommand.Parameters.AddWithValue("@TenPhongBan", name);
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
+                }
+            }
+
+        }
         private void FrmDPAdd_Load_1(object sender, EventArgs e)
         {
+            if (id != null)
+            {
+                tbID.Text = id;
+                tbID.Enabled = false;
+                btnAdd.Text = "Edit";
+            }
+            if (name != null)
+            {
+                tbName.Text = name;
 
+            }
+    
         }
     }
 }

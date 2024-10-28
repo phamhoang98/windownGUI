@@ -14,6 +14,8 @@ namespace WindowGUI
 {
     public partial class FrmPSAdd : Form
     {
+        public string? id;
+        public string? name;
         public FrmPSAdd()
         {
             InitializeComponent();
@@ -38,7 +40,7 @@ namespace WindowGUI
             }
             else
             {
-                if (IsValueExists("MaChucVu", tbID.Text))
+                if (id == null && IsValueExists("MaChucVu", tbID.Text))
                 {
                     MessageBox.Show($"Mã chức vụ [{tbID.Text}] đã tồn tại. Vui lòng nhập lại.");
                     return;
@@ -50,7 +52,7 @@ namespace WindowGUI
             }
             else
             {
-                if (IsValueExists("TenChucVu", tbName.Text))
+                if (tbName.Text != name && IsValueExists("TenChucVu", tbName.Text))
                 {
                     MessageBox.Show($"Tên chức vụ [{tbName.Text}] đã tồn tại. Vui lòng nhập lại.");
                     return;
@@ -63,7 +65,15 @@ namespace WindowGUI
                 MessageBox.Show(message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            AddPosition(tbID.Text, tbName.Text);
+            if (id == null)
+            {
+                AddPosition(tbID.Text, tbName.Text);
+            }
+            else
+            {
+                EditPosition(tbID.Text, tbName.Text);
+            }
+
 
             this.Close();
         }
@@ -112,6 +122,45 @@ namespace WindowGUI
                 }
             }
         }
+
+        private void EditPosition(string id, string name)
+        {
+            using (SqlConnection connection = new SqlConnection(AppData.connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "UPDATE  ChucVu SET TenChucVu = @TenChucVu WHERE MaChucVu= @MaChucVu";
+                    using (SqlCommand sqlCommand = new SqlCommand(query, connection))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@MaChucVu", id);
+                        sqlCommand.Parameters.AddWithValue("@TenChucVu", name);
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
+                }
+            }
+
+        }
+
+        private void FrmPSAdd_Load(object sender, EventArgs e)
+        {
+            if (id != null)
+            {
+                tbID.Text = id;
+                tbID.Enabled = false;
+                btnAdd.Text = "Edit";
+            }
+            if (name != null)
+            {
+                tbName.Text = name;
+
+            }
+        }
+
 
     }
 }

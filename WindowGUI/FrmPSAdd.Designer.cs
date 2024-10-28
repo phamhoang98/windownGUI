@@ -32,7 +32,7 @@
             tbID = new TextBox();
             tbName = new TextBox();
             label2 = new Label();
-            button1 = new Button();
+            btnAdd = new Button();
             button2 = new Button();
             SuspendLayout();
             // 
@@ -68,15 +68,15 @@
             label2.TabIndex = 2;
             label2.Text = "Tên chức vụ ";
             // 
-            // button1
+            // btnAdd
             // 
-            button1.Location = new Point(262, 123);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 4;
-            button1.Text = "Add";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnAdd.Location = new Point(262, 123);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(94, 29);
+            btnAdd.TabIndex = 4;
+            btnAdd.Text = "Add";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += button1_Click;
             // 
             // button2
             // 
@@ -94,13 +94,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(400, 204);
             Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(btnAdd);
             Controls.Add(tbName);
             Controls.Add(label2);
             Controls.Add(tbID);
             Controls.Add(label1);
             Name = "FrmPSAdd";
             Text = "FrmPSAdd";
+            Load += FrmPSAdd_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -111,7 +112,7 @@
         private TextBox tbID;
         private TextBox tbName;
         private Label label2;
-        private Button button1;
+        private Button btnAdd;
         private Button button2;
     }
 }

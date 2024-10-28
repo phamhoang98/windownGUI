@@ -30,6 +30,10 @@
         {
             btnAdd = new Button();
             dgvDepartment = new DataGridView();
+            MaPhongBan = new DataGridViewTextBoxColumn();
+            TenPhongBan = new DataGridViewTextBoxColumn();
+            edit = new DataGridViewButtonColumn();
+            delete = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)dgvDepartment).BeginInit();
             SuspendLayout();
             // 
@@ -46,11 +50,45 @@
             // dgvDepartment
             // 
             dgvDepartment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDepartment.Columns.AddRange(new DataGridViewColumn[] { MaPhongBan, TenPhongBan, edit, delete });
             dgvDepartment.Location = new Point(12, 57);
             dgvDepartment.Name = "dgvDepartment";
             dgvDepartment.RowHeadersWidth = 51;
             dgvDepartment.Size = new Size(643, 349);
             dgvDepartment.TabIndex = 9;
+            dgvDepartment.CellContentClick += dgvDepartment_CellContentClick;
+            // 
+            // MaPhongBan
+            // 
+            MaPhongBan.DataPropertyName = "MaPhongBan";
+            MaPhongBan.HeaderText = "Mã ";
+            MaPhongBan.MinimumWidth = 6;
+            MaPhongBan.Name = "MaPhongBan";
+            MaPhongBan.ReadOnly = true;
+            MaPhongBan.Width = 125;
+            // 
+            // TenPhongBan
+            // 
+            TenPhongBan.DataPropertyName = "TenPhongBan";
+            TenPhongBan.HeaderText = "Phòng ban";
+            TenPhongBan.MinimumWidth = 6;
+            TenPhongBan.Name = "TenPhongBan";
+            TenPhongBan.ReadOnly = true;
+            TenPhongBan.Width = 125;
+            // 
+            // edit
+            // 
+            edit.HeaderText = "Sửa";
+            edit.MinimumWidth = 6;
+            edit.Name = "edit";
+            edit.Width = 125;
+            // 
+            // delete
+            // 
+            delete.HeaderText = "Xoá";
+            delete.MinimumWidth = 6;
+            delete.Name = "delete";
+            delete.Width = 125;
             // 
             // FrmDP
             // 
@@ -70,5 +108,9 @@
 
         private Button btnAdd;
         private DataGridView dgvDepartment;
+        private DataGridViewTextBoxColumn MaPhongBan;
+        private DataGridViewTextBoxColumn TenPhongBan;
+        private DataGridViewButtonColumn edit;
+        private DataGridViewButtonColumn delete;
     }
 }
